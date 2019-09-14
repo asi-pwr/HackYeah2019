@@ -83,7 +83,7 @@ class _RoomPageState extends State<RoomPage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: onFabClick,
+        onPressed: _onFabClick,
         backgroundColor: Colors.blueAccent,
         child: Icon(Icons.add),
       ),
@@ -123,13 +123,13 @@ class _RoomPageState extends State<RoomPage> {
           itemCount: response.documents.length,
           padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
           itemBuilder: (BuildContext context, int index) =>
-            eventRow(response.documents[index]),
+            _eventRow(response.documents[index]),
           separatorBuilder: (BuildContext context, int index) =>
             const Divider()),
     );
   }
 
-  Widget eventRow(DocumentSnapshot item) {
+  Widget _eventRow(DocumentSnapshot item) {
     return Container(
       height: 60.0,
       child: InkWell(
@@ -153,7 +153,7 @@ class _RoomPageState extends State<RoomPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: (item['responderList'] as List<dynamic>)
-                        .map((f) => usersIcons(f)).toList(),
+                        .map((f) => _usersIcons(f)).toList(),
                   )
               ),
             ],
@@ -163,7 +163,7 @@ class _RoomPageState extends State<RoomPage> {
     );
   }
 
-  Widget usersIcons(dynamic responder) {
+  Widget _usersIcons(dynamic responder) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: CircleAvatar(
@@ -174,20 +174,26 @@ class _RoomPageState extends State<RoomPage> {
     );
   }
 
-  void onFabClick() async {
+  void _onFabClick() async {
     return showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
             title: Text('Add new continuous event'),
-            content: TextField(
+            content: TextFormField(
               controller: widget._textFieldController,
               decoration: InputDecoration(hintText: "Event name"),
+              onFieldSubmitted: (input) {
+                if(input.isEmpty) return;
+                widget.roomBlock.createNewContinuousEvent(input);
+                Navigator.of(context).pop();
+              }
             ),
             actions: <Widget>[
               new FlatButton(
                 child: new Text('Add'),
                 onPressed: () {
+                  if(widget._textFieldController.text.isEmpty) return;
                   widget.roomBlock.createNewContinuousEvent(widget._textFieldController.text);
                   Navigator.of(context).pop();
                 },
