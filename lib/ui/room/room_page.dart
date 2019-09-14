@@ -18,6 +18,33 @@ class RoomPage extends StatefulWidget {
 class _RoomPageState extends State<RoomPage> {
 
   @override
+  void initState() {
+    super.initState();
+
+    widget.roomBlock.initNotifications();
+
+    widget.roomBlock.messageStream.listen((message) =>
+    {
+      showDialog(
+          context: context,
+          builder: (context) =>
+              AlertDialog(
+                content: ListTile(
+                  title: Text(message['notification']['title']),
+                  subtitle: Text(message['notification']['body']),
+                ),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text('Ok'),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
+                ],
+              )
+      )
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
 
     widget.roomBlock.roomId = ModalRoute.of(context).settings.arguments;
