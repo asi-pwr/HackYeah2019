@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter1/di/common_injector.dart';
 import 'package:flutter1/ui/login/login_page.dart';
+import 'package:flutter1/ui/room/room_page.dart';
 import 'package:inject/inject.dart';
 import 'package:flutter/rendering.dart';
 
@@ -27,6 +28,8 @@ class App extends StatelessWidget {
             ListPage(),
         '/login': (BuildContext context) =>
             LoginPage(commonInjector.loginBloc, title: 'Firebase login'),
+        '/room': (BuildContext context) =>
+            RoomPage(commonInjector.roomBloc, title: 'My room'),
       },
     );
   }

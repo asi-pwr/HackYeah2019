@@ -39,6 +39,17 @@ class _HomePageState extends State<HomePage> {
               padding: EdgeInsets.all(16.0),
               child: RaisedButton(
                 child: Text(
+                  'My room',
+                ),
+                onPressed: (){
+                  Navigator.pushNamed(context, '/room', arguments: "globalRoom"); //todo local room name
+                },
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(16.0),
+              child: RaisedButton(
+                child: Text(
                   'Firebase login',
                 ),
                 onPressed: (){
