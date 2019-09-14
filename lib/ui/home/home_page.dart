@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
                   'My room',
                 ),
                 onPressed: (){
-                  Navigator.pushNamed(context, '/room');
+                  Navigator.pushNamed(context, '/room', arguments: "globalRoom"); //todo local room name
                 },
               ),
             ),
