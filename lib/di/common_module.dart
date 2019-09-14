@@ -77,5 +77,6 @@ class CommonModule {
       RoomBloc(continuousEventsRepository);
 
   @provide
-  MainBloc mainBloc() => MainBloc(FirebaseMessaging()); //todo
+  MainBloc mainBloc(FirebaseMessaging firebaseMessaging) =>
+      MainBloc(firebaseMessaging);
 }
