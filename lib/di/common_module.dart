@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter1/common/bloc/login_bloc.dart';
+import 'package:flutter1/common/bloc/main_bloc.dart';
 import 'package:flutter1/common/bloc/room_bloc.dart';
 import 'package:flutter1/common/repository/continuous_events_repository.dart';
 import 'package:flutter1/common/repository/user_data_repository.dart';
@@ -74,4 +75,7 @@ class CommonModule {
   @provide
   RoomBloc roomBloc(ContinuousEventsRepository continuousEventsRepository) =>
       RoomBloc(continuousEventsRepository);
+
+  @provide
+  MainBloc mainBloc() => MainBloc(FirebaseMessaging()); //todo
 }

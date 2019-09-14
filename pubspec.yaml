@@ -32,6 +32,7 @@ dependencies:
   cloud_firestore: ^0.12.9+4
   firebase_messaging: ^5.0.2
   google_sign_in: ^4.0.7
+  firebase_messaging: ^5.0.2
   inject:
     path: ./inject/inject.dart/package/inject
 
