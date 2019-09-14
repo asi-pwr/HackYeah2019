@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter1/common/bloc/login_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key key, this.title}) : super(key: key);
+  const LoginPage(this._loginBloc, {Key key, this.title}) : super(key: key);
 
+  final LoginBloc _loginBloc;
   final String title;
 
   @override
@@ -20,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    FirebaseAuth.instance.currentUser().then(
+    widget._loginBloc.firebaseAuth.currentUser().then(
           (user) => setState(() => this._user = user),
     );
   }
@@ -41,10 +43,16 @@ class _LoginPageState extends State<LoginPage> {
           ? null
           : () async {
         setState(() => this._busy = true);
-        final user = await this._googleSignIn();
-        this._showUserProfilePage(user);
+        await this._googleSignIn();
+        Navigator.pop(context);
         setState(() => this._busy = false);
       },
+    );
+
+    final currentUserBtn = MaterialButton(
+        color: Colors.grey,
+        child: Text('My account'),
+        onPressed: () => this._showUserProfilePage(this._user)
     );
 
     final signOutBtn = FlatButton(
@@ -58,6 +66,18 @@ class _LoginPageState extends State<LoginPage> {
       },
     );
 
+    var widgetsList = _user == null
+        ? <Widget>[
+          statusText,
+          googleLoginBtn,
+          signOutBtn
+        ] : <Widget>[
+          statusText,
+          googleLoginBtn,
+          currentUserBtn,
+          signOutBtn
+        ];
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -65,11 +85,7 @@ class _LoginPageState extends State<LoginPage> {
       body: Center(
         child: ListView(
           padding: EdgeInsets.symmetric(vertical: 100.0, horizontal: 50.0),
-          children: <Widget>[
-            statusText,
-            googleLoginBtn,
-            signOutBtn,
-          ],
+          children: widgetsList
         ),
       ),
     );
@@ -77,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
 
   // Sign in with Google.
   Future<FirebaseUser> _googleSignIn() async {
-    final curUser = this._user ?? await FirebaseAuth.instance.currentUser();
+    final curUser = this._user ?? await widget._loginBloc.firebaseAuth.currentUser();
     if (curUser != null && !curUser.isAnonymous) {
       return curUser;
     }
@@ -88,13 +104,13 @@ class _LoginPageState extends State<LoginPage> {
       idToken: googleAuth.idToken,
     );
     // Note: user.providerData[0].photoUrl == googleUser.photoUrl.
-    final user = await FirebaseAuth.instance.signInWithCredential(credential);
+    final user = await widget._loginBloc.firebaseAuth.signInWithCredential(credential);
     setState(() => this._user = user.user);
     return user.user;
   }
 
   Future<Null> _signOut() async {
-    FirebaseAuth.instance.signOut();
+    widget._loginBloc.firebaseAuth..signOut();
     setState(() => this._user = null);
   }
 
