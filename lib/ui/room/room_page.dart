@@ -1,4 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -97,17 +96,17 @@ class _RoomPageState extends State<RoomPage> {
           itemCount: response.documents.length,
           padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
           itemBuilder: (BuildContext context, int index) =>
-            EventRow(response.documents[index]),
+            eventRow(response.documents[index]),
           separatorBuilder: (BuildContext context, int index) =>
             const Divider()),
     );
   }
 
-  Widget EventRow(DocumentSnapshot item) {
+  Widget eventRow(DocumentSnapshot item) {
     return Container(
       height: 60.0,
       child: InkWell(
-        onTap: () {},
+        onTap: () {widget.roomBlock.toggleTakingEvent(item);},
         child: Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -146,7 +145,6 @@ class _RoomPageState extends State<RoomPage> {
           ),
       ),
     );
-
   }
 
   void onFabClick() async {
