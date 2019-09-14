@@ -42,10 +42,8 @@ class _LoginPageState extends State<LoginPage> {
       onPressed: this._busy
           ? null
           : () async {
-        setState(() => this._busy = true);
-        await this._googleSignIn();
-        Navigator.pop(context);
-        setState(() => this._busy = false);
+        Navigator.pushNamed(context, '/list');
+
       },
     );
 
