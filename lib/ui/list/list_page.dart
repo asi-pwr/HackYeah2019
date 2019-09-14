@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter1/common/bloc/stack_questions_bloc.dart';
 import 'package:flutter1/common/model/EventStatus.dart';
 
 class ListPage extends StatefulWidget {
@@ -39,8 +38,8 @@ class _ListPageState extends State<ListPage> {
 
   Widget UsersIcons(List<String> icons) {
     return CircleAvatar(backgroundImage: NetworkImage(
-        "https://lh6.googleusercontent.com/-YjRRGsiDyS8/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rcu2PDsha1A2cVzOea9jfd86EQN8A/s96-c/photo.jpg"));
-
+        "https://lh6.googleusercontent.com/-YjRRGsiDyS8/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rcu2PDsha1A2cVzOea9jfd86EQN8A/s96-c/photo.jpg")
+    );
   }
 
 }
