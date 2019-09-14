@@ -1,3 +1,4 @@
+import 'package:flutter1/common/bloc/chat_bloc.dart';
 import 'package:flutter1/common/bloc/login_bloc.dart';
 import 'package:flutter1/common/bloc/main_bloc.dart';
 import 'package:flutter1/common/bloc/room_bloc.dart';
@@ -28,4 +29,7 @@ abstract class CommonInjector {
 
   @provide
   MainBloc get mainBloc;
+
+  @provide
+  ChatBloc get chatBloc;
 }

@@ -1,11 +1,14 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter1/common/bloc/chat_bloc.dart';
 import 'package:flutter1/common/bloc/login_bloc.dart';
 import 'package:flutter1/common/bloc/main_bloc.dart';
 import 'package:flutter1/common/bloc/room_bloc.dart';
+import 'package:flutter1/common/repository/continuous_messages_repository.dart';
 import 'package:flutter1/common/repository/continuous_events_repository.dart';
 import 'package:flutter1/common/repository/user_data_repository.dart';
 import 'package:inject/inject.dart';
@@ -18,13 +21,10 @@ import 'package:flutter1/common/network/rest_io_client.dart';
 
 @module
 class CommonModule {
-
   @provide
-  RestIOClient restIoClient() => RestIOClient(
-      HttpClient()
-        ..connectionTimeout = const Duration(seconds: 10)
-        ..idleTimeout = const Duration(seconds: 10)
-  );
+  RestIOClient restIoClient() => RestIOClient(HttpClient()
+    ..connectionTimeout = const Duration(seconds: 10)
+    ..idleTimeout = const Duration(seconds: 10));
 
   @provide
   @singleton
@@ -50,17 +50,18 @@ class CommonModule {
 
   @provide
   @singleton
-  StackQuestionsRepository stackQuestionsRepository(StackService stackService) =>
+  StackQuestionsRepository stackQuestionsRepository(
+          StackService stackService) =>
       StackQuestionsRepository(stackService);
 
   @provide
   ContinuousEventsRepository continuousEventsRepository(
-      Firestore firestore, FirebaseAuth firebaseAuth) =>
+          Firestore firestore, FirebaseAuth firebaseAuth) =>
       ContinuousEventsRepository(firestore, firebaseAuth);
 
   @provide
   UserDataRepository userDataRepository(
-      Firestore firestore, FirebaseMessaging firebaseMessaging) =>
+          Firestore firestore, FirebaseMessaging firebaseMessaging) =>
       UserDataRepository(firestore, firebaseMessaging);
 
   @provide
@@ -69,7 +70,7 @@ class CommonModule {
 
   @provide
   LoginBloc loginBloc(
-      FirebaseAuth firebaseAuth, UserDataRepository userDataRepository) =>
+          FirebaseAuth firebaseAuth, UserDataRepository userDataRepository) =>
       LoginBloc(firebaseAuth, userDataRepository);
 
   @provide
@@ -79,4 +80,14 @@ class CommonModule {
   @provide
   MainBloc mainBloc(FirebaseMessaging firebaseMessaging) =>
       MainBloc(firebaseMessaging);
+
+  @provide
+  ContinuousMessagesRepository continuousMessagesRepository(
+          Firestore firestore, FirebaseAuth firebaseAuth) =>
+      ContinuousMessagesRepository(firestore, firebaseAuth);
+
+  @provide
+  ChatBloc chatBloc(
+          ContinuousMessagesRepository continuousMessagesRepository) =>
+      ChatBloc(continuousMessagesRepository);
 }
