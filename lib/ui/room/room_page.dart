@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter1/common/bloc/room_bloc.dart';
 import 'package:flutter1/common/model/stack_questions/item.dart';
+import 'package:flutter1/di/message_handler.dart';
 import 'package:flutter1/ui/list/list_item.dart';
 
 class RoomPage extends StatefulWidget {
@@ -26,7 +27,7 @@ class _RoomPageState extends State<RoomPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: MessageHandler(),
       ),
       body: Column(
         children: <Widget>[
