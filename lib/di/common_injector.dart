@@ -1,3 +1,4 @@
+import 'package:flutter1/common/bloc/login_bloc.dart';
 import 'package:flutter1/common/bloc/stack_questions_bloc.dart';
 import 'package:inject/inject.dart';
 
@@ -16,4 +17,7 @@ abstract class CommonInjector {
   //Dynamic injectors
   @provide
   StackQuestionsBloc get stackQuestionsBloc;
+
+  @provide
+  LoginBloc get loginBloc;
 }

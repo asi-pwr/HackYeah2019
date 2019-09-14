@@ -26,7 +26,7 @@ class App extends StatelessWidget {
         '/list': (BuildContext context) =>
             ListPage(commonInjector.stackQuestionsBloc, title: 'List page test'),
         '/login': (BuildContext context) =>
-            LoginPage(title: 'Firebase login'),
+            LoginPage(commonInjector.loginBloc, title: 'Firebase login'),
       },
     );
   }

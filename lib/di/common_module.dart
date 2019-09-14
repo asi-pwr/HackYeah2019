@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter1/common/bloc/login_bloc.dart';
 import 'package:inject/inject.dart';
 
 import 'package:flutter1/common/network/jaguar_factory.dart';
@@ -20,6 +22,10 @@ class CommonModule {
 
   @provide
   @singleton
+  FirebaseAuth firebaseAuth() => FirebaseAuth.instance;
+
+  @provide
+  @singleton
   JaguarFactory jaguarFactory(RestIOClient restIOClient) =>
       JaguarFactory(restIOClient);
 
@@ -36,4 +42,7 @@ class CommonModule {
   @provide
   StackQuestionsBloc stackQuestionsBloc(StackQuestionsRepository repository) =>
       StackQuestionsBloc(repository);
+
+  @provide
+  LoginBloc loginBloc(FirebaseAuth firebaseAuth) => LoginBloc(firebaseAuth);
 }
