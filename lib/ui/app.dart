@@ -24,7 +24,7 @@ class App extends StatelessWidget {
       home: HomePage(title: 'Flutter samples'),
       routes: <String, WidgetBuilder> {
         '/list': (BuildContext context) =>
-            ListPage(commonInjector.stackQuestionsBloc, title: 'List page test'),
+            ListPage(),
         '/login': (BuildContext context) =>
             LoginPage(commonInjector.loginBloc, title: 'Firebase login'),
       },

@@ -1,64 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:flutter1/common/bloc/stack_questions_bloc.dart';
-import 'package:flutter1/common/model/stack_questions/stack_questions.dart';
-import 'package:flutter1/ui/list/list_item.dart';
+import 'package:flutter1/common/model/EventStatus.dart';
 
 class ListPage extends StatefulWidget {
-  ListPage(this.stackQuestionsBloc, {Key key, this.title}) : super(key: key);
-
-  final StackQuestionsBloc stackQuestionsBloc;
-  final String title;
+  ListPage({Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _ListPageState();
 }
 
 class _ListPageState extends State<ListPage> {
-  Future<void> _refreshStackQuestions() async {
-    widget.stackQuestionsBloc.requestStackQuestions(forceUpdate: true);
-  }
 
   @override
   Widget build(BuildContext context) {
-    var list = ["one", "two", "three", "four"];
+    var list = [
+      EventStatus(1, "jestem w domu", ["a", "b", "c"])
+    ];
     return Scaffold(
-        appBar: AppBar(title: Text('Your friends')),
-        body: Center(
-            child: ListView(
-                children: list
-                    .map((item) => new Card(
-                            child: Row(children: <Widget>[
-                          Text(item),
-                          Align(
-                              alignment: Alignment.centerRight,
-                              child: Text("xd"))
-                        ])))
-                    .toList())));
+        appBar: AppBar(title: Text('Your friends')), body: EventsList(list));
   }
 
-//      new Column(children: list.map((item) => new Card(child: Text(item))).toList());
-
-  Widget _listViewBuilder(StackQuestions response) {
-    return ListView.separated(
-        itemCount: response.items.length,
-        padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
-        itemBuilder: (BuildContext context, int index) =>
-            ListItem(index: index, model: response.items[index]),
-        separatorBuilder: (BuildContext context, int index) => const Divider());
+  Widget EventsList(List<EventStatus> list) {
+    return Center(
+        child: ListView(children: list.map((item) => EventRow(item)).toList()));
   }
 
-  Widget _fetchErrorMsg(Exception e) {
-    return Column(
-      children: <Widget>[
-        Padding(
-          padding: EdgeInsets.all(12.0),
-          child: Expanded(
-            child: Card(
-              child: Text("Unable to fetch: " + e.toString()),
-            ),
-          ),
-        ),
-      ],
+  Widget EventRow(EventStatus item) {
+    return Card(
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(item.name),
+              UsersIcons(item.userPhotoUrls)
+            ]
+        )
     );
   }
+
+  Widget UsersIcons(List<String> icons) {
+    return CircleAvatar(backgroundImage: NetworkImage(
+        "https://lh6.googleusercontent.com/-YjRRGsiDyS8/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rcu2PDsha1A2cVzOea9jfd86EQN8A/s96-c/photo.jpg"));
+
+  }
+
 }
