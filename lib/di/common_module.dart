@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter1/common/bloc/login_bloc.dart';
+import 'package:flutter1/common/bloc/room_bloc.dart';
 import 'package:inject/inject.dart';
 
 import 'package:flutter1/common/network/jaguar_factory.dart';
@@ -45,4 +46,7 @@ class CommonModule {
 
   @provide
   LoginBloc loginBloc(FirebaseAuth firebaseAuth) => LoginBloc(firebaseAuth);
+
+  @provide
+  RoomBloc roomBloc(FirebaseAuth firebaseAuth) => RoomBloc(firebaseAuth);
 }
