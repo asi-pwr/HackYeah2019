@@ -21,17 +21,14 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-                'Flutter tests/samples:',
-            ),
             Padding(
               padding: EdgeInsets.all(16.0),
               child: RaisedButton(
                 child: Text(
-                  'Network fetched list + local RAM cache',
+                  'Test page',
                 ),
                 onPressed: (){
-                  Navigator.pushNamed(context, '/list');
+                  Navigator.pushNamed(context, '/test');
                 },
               ),
             ),
