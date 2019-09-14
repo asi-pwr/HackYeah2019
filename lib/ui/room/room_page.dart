@@ -2,8 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter1/common/bloc/room_bloc.dart';
-import 'package:flutter1/common/model/stack_questions/item.dart';
-import 'package:flutter1/ui/list/list_item.dart';
 
 class RoomPage extends StatefulWidget {
   RoomPage(this.roomBlock, {Key key, this.title}): super(key: key);
@@ -127,7 +125,8 @@ class _RoomPageState extends State<RoomPage> {
               Expanded(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
-                    children: (item['responderList'] as List<dynamic>).map((f) => UsersIcons(f)).toList(),
+                    children: (item['responderList'] as List<dynamic>)
+                        .map((f) => usersIcons(f)).toList(),
                   )
               ),
             ],
@@ -137,11 +136,11 @@ class _RoomPageState extends State<RoomPage> {
     );
   }
 
-  Widget UsersIcons(dynamic iconUrl) {
+  Widget usersIcons(dynamic responder) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: CircleAvatar(backgroundImage: NetworkImage(
-          "https://lh6.googleusercontent.com/-YjRRGsiDyS8/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rcu2PDsha1A2cVzOea9jfd86EQN8A/s96-c/photo.jpg")
+          responder['imgUrl'])
       ),
     );
 

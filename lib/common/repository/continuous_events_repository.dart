@@ -25,7 +25,10 @@ class ContinuousEventsRepository {
         .setData({
           'authorId': _user.uid,
           'name': name,
-          'responderList': List.from({name})
+          'responderList': List.from({{
+            'name':name,
+            'imgUrl':_user.photoUrl
+          }})
         });
   }
 }

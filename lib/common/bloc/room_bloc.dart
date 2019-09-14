@@ -18,6 +18,6 @@ class RoomBloc extends BaseBloc {
   Stream<QuerySnapshot> continuousEventsStream() =>
       _continuousEventsRepository.eventStream(_roomId);
 
-  void createNewContinuousEvent(String name) =>
+  void createNewContinuousEvent(String name, ) =>
       _continuousEventsRepository.createNewEvent(name, _roomId);
 }
