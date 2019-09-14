@@ -44,6 +44,7 @@ class _LoginPageState extends State<LoginPage> {
           : () async {
         setState(() => this._busy = true);
         await this._googleSignIn();
+        widget._loginBloc.saveUserData(_user);
         Navigator.pop(context);
         setState(() => this._busy = false);
       },
