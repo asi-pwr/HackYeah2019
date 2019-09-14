@@ -20,4 +20,7 @@ class RoomBloc extends BaseBloc {
 
   void createNewContinuousEvent(String name) =>
       _continuousEventsRepository.createNewEvent(name, _roomId);
+
+  void toggleTakingEvent(DocumentSnapshot item) =>
+      _continuousEventsRepository.toggleTakingEvent(item, _roomId);
 }

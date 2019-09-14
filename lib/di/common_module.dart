@@ -2,9 +2,11 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter1/common/bloc/login_bloc.dart';
 import 'package:flutter1/common/bloc/room_bloc.dart';
 import 'package:flutter1/common/repository/continuous_events_repository.dart';
+import 'package:flutter1/common/repository/user_data_repository.dart';
 import 'package:inject/inject.dart';
 
 import 'package:flutter1/common/network/jaguar_factory.dart';
@@ -33,6 +35,10 @@ class CommonModule {
 
   @provide
   @singleton
+  FirebaseMessaging firebaseMessaging() => FirebaseMessaging();
+
+  @provide
+  @singleton
   JaguarFactory jaguarFactory(RestIOClient restIOClient) =>
       JaguarFactory(restIOClient);
 
@@ -52,11 +58,18 @@ class CommonModule {
       ContinuousEventsRepository(firestore, firebaseAuth);
 
   @provide
+  UserDataRepository userDataRepository(
+      Firestore firestore, FirebaseMessaging firebaseMessaging) =>
+      UserDataRepository(firestore, firebaseMessaging);
+
+  @provide
   StackQuestionsBloc stackQuestionsBloc(StackQuestionsRepository repository) =>
       StackQuestionsBloc(repository);
 
   @provide
-  LoginBloc loginBloc(FirebaseAuth firebaseAuth) => LoginBloc(firebaseAuth);
+  LoginBloc loginBloc(
+      FirebaseAuth firebaseAuth, UserDataRepository userDataRepository) =>
+      LoginBloc(firebaseAuth, userDataRepository);
 
   @provide
   RoomBloc roomBloc(ContinuousEventsRepository continuousEventsRepository) =>
