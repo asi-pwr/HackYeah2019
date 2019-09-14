@@ -116,8 +116,8 @@ class _RoomPageState extends State<RoomPage> {
 
   Widget _listViewBuilder(QuerySnapshot response, BuildContext context){
     return Container(
-      height: response.documents.length > 3
-          ? 76.0 * 3
+      height: response.documents.length * 76.0 > (MediaQuery.of(context).size.height / 2.0)
+          ? ((MediaQuery.of(context).size.height / 2.0) / 76.0).floor() * 76.0
           : response.documents.length * 76.0,
       child: ListView.separated(
           itemCount: response.documents.length,
