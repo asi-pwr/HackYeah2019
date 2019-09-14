@@ -91,15 +91,60 @@ class _RoomPageState extends State<RoomPage> {
 
   Widget _listViewBuilder(QuerySnapshot response, BuildContext context){
     return Container(
-      height: response.documents.length > 3 ? 70.0 * 3 : response.documents.length * 70.0,
+      height: response.documents.length > 3
+          ? 76.0 * 3
+          : response.documents.length * 76.0,
       child: ListView.separated(
           itemCount: response.documents.length,
           padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
           itemBuilder: (BuildContext context, int index) =>
-              Text("Hello world"),
-          separatorBuilder: (BuildContext context,
-              int index) => const Divider()),
+            EventRow(response.documents[index]),
+          separatorBuilder: (BuildContext context, int index) =>
+            const Divider()),
     );
+  }
+
+  Widget EventRow(DocumentSnapshot item) {
+    return Container(
+      height: 60.0,
+      child: InkWell(
+        onTap: () {},
+        child: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                  padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Text(item['name'],
+                          style: TextStyle(fontSize: 18.0),
+                        ),
+                      ]
+                  )
+              ),
+              Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: (item['responderList'] as List<dynamic>).map((f) => UsersIcons(f)).toList(),
+                  )
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget UsersIcons(dynamic iconUrl) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: CircleAvatar(backgroundImage: NetworkImage(
+          "https://lh6.googleusercontent.com/-YjRRGsiDyS8/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rcu2PDsha1A2cVzOea9jfd86EQN8A/s96-c/photo.jpg")
+      ),
+    );
+
   }
 
   void onFabClick() async {
