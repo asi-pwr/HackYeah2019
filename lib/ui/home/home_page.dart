@@ -34,6 +34,17 @@ class _HomePageState extends State<HomePage> {
                   Navigator.pushNamed(context, '/list');
                 },
               ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(16.0),
+              child: RaisedButton(
+                child: Text(
+                  'Firebase login',
+                ),
+                onPressed: (){
+                  Navigator.pushNamed(context, '/login');
+                },
+              ),
             )
           ],
         ),

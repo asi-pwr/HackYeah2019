@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter1/di/common_injector.dart';
+import 'package:flutter1/ui/login/login_page.dart';
 import 'package:inject/inject.dart';
 import 'package:flutter/rendering.dart';
 
@@ -24,6 +25,8 @@ class App extends StatelessWidget {
       routes: <String, WidgetBuilder> {
         '/list': (BuildContext context) =>
             ListPage(commonInjector.stackQuestionsBloc, title: 'List page test'),
+        '/login': (BuildContext context) =>
+            LoginPage(title: 'Firebase login'),
       },
     );
   }
