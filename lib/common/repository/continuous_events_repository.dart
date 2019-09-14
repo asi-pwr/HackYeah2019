@@ -26,7 +26,8 @@ class ContinuousEventsRepository {
           'authorId': _user.uid,
           'name': name,
           'responderList': List.from({{
-            'name':name,
+            'uid':_user.uid,
+            'name':_user.displayName,
             'imgUrl':_user.photoUrl
           }})
         });

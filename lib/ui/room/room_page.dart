@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -139,8 +140,10 @@ class _RoomPageState extends State<RoomPage> {
   Widget usersIcons(dynamic responder) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: CircleAvatar(backgroundImage: NetworkImage(
-          responder['imgUrl'])
+      child: CircleAvatar(
+          backgroundImage: NetworkImage(
+            responder['imgUrl']
+          ),
       ),
     );
 
