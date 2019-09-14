@@ -252,14 +252,14 @@ packages:
   inject:
     dependency: "direct main"
     description:
-      path: "inject/inject.dart/package/inject"
+      path: "inject\\inject.dart\\package\\inject"
       relative: true
     source: path
     version: "1.0.0-alpha"
   inject_generator:
     dependency: "direct dev"
     description:
-      path: "inject/inject.dart/package/inject_generator"
+      path: "inject\\inject.dart\\package\\inject_generator"
       relative: true
     source: path
     version: "1.0.0-alpha"

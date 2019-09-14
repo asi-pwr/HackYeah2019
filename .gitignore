@@ -1,3 +1,9 @@
+# auto-gen
+*.jser.dart
+*.jretro.dart
+*.inject.dart
+flutter_export_environment.sh
+
 # Other
 key.properties
 google-services.json
