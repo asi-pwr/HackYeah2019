@@ -20,9 +20,10 @@ class ContinuousMessagesRepository {
         .snapshots();
   }
 
-  String getMyUserId(){
+  String getMyUserId() {
     return _user.uid;
   }
+
 
   Stream<QuerySnapshot> sendMessage(String roomId, content) {
     var docReference = _firestore
@@ -32,8 +33,12 @@ class ContinuousMessagesRepository {
         .document(DateTime.now().millisecondsSinceEpoch.toString());
 
     _firestore.runTransaction((transaction) async {
-      await transaction
-          .set(docReference, {'userId': _user.uid, 'content': content, 'userName': _user.displayName});
+      await transaction.set(docReference, {
+        'userId': _user.uid,
+        'content': content,
+        'userName': _user.displayName,
+        'imgUrl' :_user.photoUrl
+      });
     });
   }
 }

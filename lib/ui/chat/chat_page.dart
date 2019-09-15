@@ -90,12 +90,29 @@ class _ChatPageState extends State<ChatPage> {
               decoration: BoxDecoration(
                   color: Colors.lightGreenAccent,
                   borderRadius: BorderRadius.circular(8.0)),
-              child: Text(document['userName'] + ': ' + document['content'],
-                  textAlign: _isItMe(document['userId'])
-                      ? TextAlign.right
-                      : TextAlign.left),
+              child: _isItMe(document['userId'])
+                  ? _myMessage(document)
+                  : _otherMessage(document),
               margin: EdgeInsets.only(bottom: 10))
         ]);
+  }
+
+  Widget _myMessage(document) {
+    return Row(mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
+      Padding(
+          padding: EdgeInsets.only(right: 5.0),
+          child: Text(document['content'], textAlign: TextAlign.right)),
+      CircleAvatar(backgroundImage: NetworkImage(document['imgUrl']))
+    ]);
+  }
+
+  Widget _otherMessage(document) {
+    return Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+      CircleAvatar(backgroundImage: NetworkImage(document['imgUrl'])),
+      Padding(
+          padding: EdgeInsets.only(left: 5.0),
+          child: Text(document['content'], textAlign: TextAlign.left))
+    ]);
   }
 
   Widget buildInput() {
