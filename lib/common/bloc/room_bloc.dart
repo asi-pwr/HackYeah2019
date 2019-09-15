@@ -23,11 +23,17 @@ class RoomBloc extends BaseBloc {
   Stream<QuerySnapshot> continuousEventsStream() =>
       _continuousEventsRepository.eventStream(_roomId);
 
-  void createNewContinuousEvent(String name) =>
-      _continuousEventsRepository.createNewEvent(name, _roomId);
+  Stream<QuerySnapshot> questionEventsStream() =>
+      _continuousEventsRepository.questionStream(_roomId);
 
-  void toggleTakingEvent(DocumentSnapshot item) =>
-      _continuousEventsRepository.toggleTakingEvent(item, _roomId);
+  void createNewContinuousEvent(String name) =>
+      _continuousEventsRepository.createNewEvent(name, _roomId, true);
+
+  void createNewQuestionEvent(String name) =>
+      _continuousEventsRepository.createNewEvent(name, _roomId, false);
+
+  void toggleTakingEvent(DocumentSnapshot item, {bool yes = false}) =>
+      _continuousEventsRepository.toggleTakingEvent(item, _roomId, yes);
 
   void initNotifications(){
     _firebaseMessaging.configure(
