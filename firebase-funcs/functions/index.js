@@ -9,11 +9,11 @@ const db = admin.firestore();
 
 exports.sendEventWriteNotification = functions.firestore
     .document('room/{roomId}/event/{eventId}')
-    .onWrite(async (change, context) => {
+    .onCreate(async (snapshot, context) => {
         const roomUid = context.params.roomId;
         const eventUid = context.params.eventId;
 
-        const event = change.after.data();
+        const event = snapshot.data();
         if (!event) {
             return console.log('Room', roomUid, 'removed', eventUid);
         }
@@ -24,8 +24,23 @@ exports.sendEventWriteNotification = functions.firestore
             return console.log('No responders added to event.');
         }
 
-        const tokens = getTokens(event.responderList.filter(
-            responder => responder.uid !== event.authorId));
+        const groupMembers = await db.collection('room').doc(roomUid).get().then(room => room.data().member);
+
+        let tokens = await Promise.all(groupMembers.map(async userId => {
+            if (userId === event.authorId) {
+                return null;
+            }
+            try {
+                return await db.collection('user').doc(userId).get().then(user => {
+                    console.log('Notification recipient:', user.data());
+                    return user.data().pushToken;
+                });
+            } catch (exception) {
+                console.log(`User ${userId} not present in DB:`, exception);
+                return null;
+            }
+        }));
+        tokens = tokens.filter(token => token !== null);
 
         console.log('device tokens to send to:', tokens);
 
@@ -44,7 +59,7 @@ exports.sendEventWriteNotification = functions.firestore
         const payload = {
             notification: {
                 title: 'New awesome event for ya!',
-                body: `Let ${authorName ? authorName : 'author'} know if you'll be participating in ${event.name}!`,
+                body: `Let ${authorName ? authorName : 'invitator'} know if you'll be participating in ${event.name}!`,
                 click_action: 'FLUTTER_NOTIFICATION_CLICK'
             }
         };
@@ -54,18 +69,39 @@ exports.sendEventWriteNotification = functions.firestore
 exports.sendMinAcceptedReachedNotification = functions.firestore
     .document('room/{roomId}/event/{eventId}')
     .onWrite(async (change, context) => {
+        const roomUid = context.params.roomId;
+        const eventUid = context.params.eventId;
         const question = change.after.data();
         if (!question) {
             return console.log('Room', roomUid, 'removed', eventUid);
         }
 
+        if (question.notificationSent && question.responderList.length < question.minAccepted) {
+            return db.collection('room').doc(roomUid).collection('event').doc(eventUid).set(
+                { notificationSent: false },
+                { merge: true }
+            );
+        }
+
         if (!question.minAccepted ||
-            question.minAccepted <= 0 ||
-            question.responderList.length < question.minAccepted) {
+            question.minAccepted < 0 ||
+            question.responderList.length < question.minAccepted ||
+            question.notificationSent) {
             return;
         }
 
-        const tokens = getTokens(question.responderList);
+        let tokens = await Promise.all(question.responderList.map(async responder => {
+            try {
+                return await db.collection('user').doc(responder.uid).get().then(user => {
+                    console.log('Notification recipient: ', user.data());
+                    return user.data().pushToken;
+                });
+            } catch (exception) {
+                console.log(`User ${responder.name} not present in DB:`, exception);
+                return null;
+            }
+        }));
+        tokens = tokens.filter(token => token !== null);
 
         if (!tokens || !tokens.length) {
             return console.log('No recipients found');
@@ -74,25 +110,15 @@ exports.sendMinAcceptedReachedNotification = functions.firestore
         const payload = {
             notification: {
                 title: 'Your crew is ready!',
-                body: `There are enough participants for ${event.name}.`,
+                body: `There are enough participants for ${question.name}.`,
                 click_action: 'FLUTTER_NOTIFICATION_CLICK'
             }
         };
+
+        db.collection('room').doc(roomUid).collection('event').doc(eventUid).set(
+            { notificationSent: true },
+            { merge: true }
+        );
+
         return admin.messaging().sendToDevice(tokens, payload);
     });
-
-function getTokens(userList) {
-    let tokens = await Promise.all(userList.map(async responder => {
-        try {
-            return await db.collection('user').doc(responder.uid).get().then(user => {
-                console.log('Notification recipient: ', user.data());
-                return user.data().pushToken;
-            });
-        } catch (exception) {
-            console.log(`User ${responder.name} not present in DB:`, exception);
-            return null;
-        }
-    }));
-
-    return tokens.filter(token => token !== null);
-}
