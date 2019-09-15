@@ -14,15 +14,27 @@ class ContinuousEventsRepository {
    return _firestore.collection("room")
        .document(roomId)
        .collection("event")
+       .where('continuous', isEqualTo: true)
        .snapshots();
   }
 
-  void createNewEvent(String name, String roomId){
+  Stream<QuerySnapshot> questionStream(String roomId) {
+    return _firestore.collection("room")
+        .document(roomId)
+        .collection("event")
+        .where('continuous', isEqualTo: false)
+        .snapshots();
+  }
+
+  void createNewEvent(String name, String roomId, bool continuous){
     _firestore.collection("room")
         .document(roomId)
         .collection("event")
         .document()
         .setData({
+          'continuous': continuous,
+          'type': 0,
+          'minAccepted': -1,
           'authorId': _user.uid,
           'name': name,
           'responderList': List.from({{
@@ -33,7 +45,7 @@ class ContinuousEventsRepository {
         });
   }
 
-  void toggleTakingEvent(DocumentSnapshot item, String roomId){
+  void toggleTakingEvent(DocumentSnapshot item, String roomId, bool yes){
     var responders = item['responderList'] as List<dynamic>;
     var remove = false;
     var rmMap;
@@ -54,7 +66,8 @@ class ContinuousEventsRepository {
       newResponders.add({
         'uid':_user.uid,
         'name':_user.displayName,
-        'imgUrl':_user.photoUrl
+        'imgUrl':_user.photoUrl,
+        'yes': yes
       });
     }
 
