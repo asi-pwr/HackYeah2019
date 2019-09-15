@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter1/di/common_injector.dart';
+import 'package:flutter1/ui/chat/chat_page.dart';
 import 'package:flutter1/ui/login/login_page.dart';
 import 'package:flutter1/ui/room/room_page.dart';
 import 'package:inject/inject.dart';
@@ -30,6 +31,8 @@ class App extends StatelessWidget {
             LoginPage(commonInjector.loginBloc, title: 'Firebase login'),
         '/room': (BuildContext context) =>
             RoomPage(commonInjector.roomBloc, title: 'My room'),
+        '/chat': (BuildContext context) =>
+            ChatPage(commonInjector.chatBloc, title: 'Chat'),
       },
     );
   }

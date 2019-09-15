@@ -53,6 +53,17 @@ class _HomePageState extends State<HomePage> {
                   Navigator.pushNamed(context, '/login');
                 },
               ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(16.0),
+              child: RaisedButton(
+                child: Text(
+                  'chat',
+                ),
+                onPressed: (){
+                  Navigator.pushNamed(context, '/chat');
+                },
+              ),
             )
           ],
         ),
