@@ -355,7 +355,7 @@ class _RoomPageState extends State<RoomPage> {
                 onPressed: () {
                   if(widget._textFieldController.text.isEmpty) return;
 
-                  if(widget.isContinuousOn){
+                  if(!widget.isContinuousOn){
                     widget.roomBlock.createNewContinuousEvent(
                         widget._textFieldController.text);
                   } else {
