@@ -57,6 +57,11 @@ class CommonModule {
   ContinuousEventsRepository continuousEventsRepository(
           Firestore firestore, FirebaseAuth firebaseAuth) =>
       ContinuousEventsRepository(firestore, firebaseAuth);
+  
+  @provide
+  ContinuousMessagesRepository continuousMessagesRepository(
+      Firestore firestore, FirebaseAuth firebaseAuth) =>
+      ContinuousMessagesRepository(firestore, firebaseAuth);
 
   @provide
   UserDataRepository userDataRepository(
@@ -71,15 +76,6 @@ class CommonModule {
   LoginBloc loginBloc(
           FirebaseAuth firebaseAuth, UserDataRepository userDataRepository) =>
       LoginBloc(firebaseAuth, userDataRepository);
-
-  @provide
-  MainBloc mainBloc(FirebaseMessaging firebaseMessaging) =>
-      MainBloc(firebaseMessaging);
-
-  @provide
-  ContinuousMessagesRepository continuousMessagesRepository(
-          Firestore firestore, FirebaseAuth firebaseAuth) =>
-      ContinuousMessagesRepository(firestore, firebaseAuth);
 
   @provide
   ChatBloc chatBloc(
