@@ -29,7 +29,7 @@ class ContinuousMessagesRepository {
 
     _firestore.runTransaction((transaction) async {
       await transaction
-          .set(docReference, {'userId': _user.uid, 'content': content, 'user': _user.displayName});
+          .set(docReference, {'userId': _user.uid, 'content': content, 'userName': _user.displayName});
     });
   }
 }

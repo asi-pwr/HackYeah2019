@@ -70,23 +70,18 @@ class _ChatPageState extends State<ChatPage> {
   Widget _listViewBuilder(AsyncSnapshot<QuerySnapshot> snapshot) {
 //    return Text("");
     return ListView.builder(
-        itemBuilder: (context, index) =>
-//        index < snapshot.data.documents.length
-//            ?
-            _buildMessage(index, snapshot.data.documents[index != null ? index : 0]));
-//            : _buildMessage(snapshot.data.documents.length,
-//                snapshot.data.documents[snapshot.data.documents.length]));
+      itemBuilder: (context, index) =>
+          _buildMessage(index, snapshot.data.documents[index]),
+      itemCount: snapshot.data.documents.length,
+    );
   }
 
 //
   Widget _buildMessage(int index, DocumentSnapshot document) {
-    print(index);
-    print(document);
-    print("AAAAAAAAAAAAAAAAA");
     return Row(
       children: <Widget>[
         Container(
-          child: Text(document['content']),
+          child: Text(document['userName'] + ': ' + document['content']),
         )
       ],
     );
