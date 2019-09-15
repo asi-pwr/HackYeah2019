@@ -17,26 +17,6 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     debugPaintSizeEnabled = false;
-
-    commonInjector.mainBloc.messageStream.listen((message) => {
-      showDialog(
-          context: context,
-          builder: (context) =>
-              AlertDialog(
-                content: ListTile(
-                  title: Text(message['notification']['title']),
-                  subtitle: Text(message['notification']['body']),
-                ),
-                actions: <Widget>[
-                  FlatButton(
-                    child: Text('Ok'),
-                    onPressed: () => Navigator.of(context).pop(),
-                  ),
-                ],
-              )
-      )
-    });
-
     return MaterialApp(
       title: 'Flutter samples',
       theme: ThemeData(
