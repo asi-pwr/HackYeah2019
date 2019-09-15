@@ -13,8 +13,6 @@ import 'package:inject/inject.dart';
 
 import 'package:flutter1/common/network/jaguar_factory.dart';
 import 'package:flutter1/common/network/service/stack_service.dart';
-import 'package:flutter1/common/repository/stack_questions_repository.dart';
-import 'package:flutter1/common/bloc/stack_questions_bloc.dart';
 import 'package:flutter1/common/network/rest_io_client.dart';
 
 @module
@@ -47,12 +45,6 @@ class CommonModule {
       jaguarFactory.buildStackService();
 
   @provide
-  @singleton
-  StackQuestionsRepository stackQuestionsRepository(
-          StackService stackService) =>
-      StackQuestionsRepository(stackService);
-
-  @provide
   ContinuousEventsRepository continuousEventsRepository(
           Firestore firestore, FirebaseAuth firebaseAuth) =>
       ContinuousEventsRepository(firestore, firebaseAuth);
@@ -68,10 +60,6 @@ class CommonModule {
       UserDataRepository(firestore, firebaseMessaging);
 
   @provide
-  StackQuestionsBloc stackQuestionsBloc(StackQuestionsRepository repository) =>
-      StackQuestionsBloc(repository);
-
-  @provide
   LoginBloc loginBloc(
           FirebaseAuth firebaseAuth, UserDataRepository userDataRepository) =>
       LoginBloc(firebaseAuth, userDataRepository);
@@ -83,6 +71,6 @@ class CommonModule {
 
   @provide
   RoomBloc roomBloc(ContinuousEventsRepository continuousEventsRepository,
-      FirebaseMessaging firebaseMessaging) =>
-      RoomBloc(continuousEventsRepository, firebaseMessaging);
+      FirebaseMessaging firebaseMessaging, FirebaseAuth firebaseAuth) =>
+      RoomBloc(continuousEventsRepository, firebaseMessaging, firebaseAuth);
 }

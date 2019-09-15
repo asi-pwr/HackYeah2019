@@ -6,9 +6,6 @@ import 'package:flutter1/ui/room/room_page.dart';
 import 'package:inject/inject.dart';
 import 'package:flutter/rendering.dart';
 
-import 'home/home_page.dart';
-import 'list/list_page.dart';
-
 @provide
 class App extends StatelessWidget {
 
@@ -23,14 +20,10 @@ class App extends StatelessWidget {
         primarySwatch: Colors.blue,
         accentColor: Colors.amberAccent,
       ),
-      home: HomePage(title: 'Flutter samples'),
+      home: RoomPage(commonInjector.roomBloc, title: 'My room', args: "globalRoom"),
       routes: <String, WidgetBuilder> {
-        '/test': (BuildContext context) =>
-            ListPage(),
         '/login': (BuildContext context) =>
             LoginPage(commonInjector.loginBloc, title: 'Firebase login'),
-        '/room': (BuildContext context) =>
-            RoomPage(commonInjector.roomBloc, title: 'My room'),
         '/chat': (BuildContext context) =>
             ChatPage(commonInjector.chatBloc, title: 'Chat'),
       },
