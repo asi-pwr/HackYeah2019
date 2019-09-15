@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter1/common/bloc/room_bloc.dart';
 
 class RoomPage extends StatefulWidget {
-  RoomPage(this.roomBlock, {Key key, this.title}): super(key: key);
+  RoomPage(this.roomBlock, {Key key, this.title, this.args}): super(key: key);
 
   final RoomBloc roomBlock;
   final String title;
+  final String args;
 
   bool isContinuousOn = false;
   TextEditingController _textFieldController = TextEditingController();
@@ -43,16 +44,35 @@ class _RoomPageState extends State<RoomPage> {
               )
       )
     });
+
+    widget.roomBlock.checkIsLoggedIn().then((onValue) {
+      if(onValue == null) Navigator.pushNamed(context, '/login');
+    });
   }
 
   @override
   Widget build(BuildContext context) {
 
-    widget.roomBlock.roomId = ModalRoute.of(context).settings.arguments;
+    widget.roomBlock.initUser();
+    widget.roomBlock.roomId = widget.args ?? ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.message),
+              onPressed: () {
+                Navigator.pushNamed(context, '/chat');
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.account_circle),
+              onPressed: () {
+                Navigator.pushNamed(context, '/login');
+              },
+            ),
+        ],
       ),
       body: Column(
         children: <Widget>[
@@ -306,7 +326,7 @@ class _RoomPageState extends State<RoomPage> {
               children: <Widget>[
                 Row(
                   children: <Widget>[
-                    Text("Continous event"),
+                    Text("Continous event", style: TextStyle(fontSize: 14)),
                     Switch(
                       value: widget.isContinuousOn,
                       onChanged: (bool isOn){
@@ -315,7 +335,7 @@ class _RoomPageState extends State<RoomPage> {
                         });
                       },
                     ),
-                    Text("Question"),
+                    Text("Question", style: TextStyle(fontSize: 14)),
                   ],
                 ),
                 TextFormField(
@@ -338,8 +358,8 @@ class _RoomPageState extends State<RoomPage> {
                   if(widget.isContinuousOn){
                     widget.roomBlock.createNewContinuousEvent(
                         widget._textFieldController.text);
-                  } else{
-                    widget.roomBlock.createNewContinuousEvent(
+                  } else {
+                    widget.roomBlock.createNewQuestionEvent(
                         widget._textFieldController.text);
                   }
 

@@ -6,7 +6,9 @@ class ContinuousEventsRepository {
   Firestore _firestore;
   FirebaseUser _user;
 
-  ContinuousEventsRepository(this._firestore, this._firebaseAuth){
+  ContinuousEventsRepository(this._firestore, this._firebaseAuth);
+
+  void loadUser(){
     _firebaseAuth.currentUser().then((value){_user = value;});
   }
 
