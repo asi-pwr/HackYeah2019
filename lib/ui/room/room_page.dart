@@ -306,7 +306,7 @@ class _RoomPageState extends State<RoomPage> {
               children: <Widget>[
                 Row(
                   children: <Widget>[
-                    Text("Continous event"),
+                    Text("Continous event", style: TextStyle(fontSize: 14)),
                     Switch(
                       value: widget.isContinuousOn,
                       onChanged: (bool isOn){
@@ -315,7 +315,7 @@ class _RoomPageState extends State<RoomPage> {
                         });
                       },
                     ),
-                    Text("Question"),
+                    Text("Question", style: TextStyle(fontSize: 14)),
                   ],
                 ),
                 TextFormField(
@@ -338,8 +338,8 @@ class _RoomPageState extends State<RoomPage> {
                   if(widget.isContinuousOn){
                     widget.roomBlock.createNewContinuousEvent(
                         widget._textFieldController.text);
-                  } else{
-                    widget.roomBlock.createNewContinuousEvent(
+                  } else {
+                    widget.roomBlock.createNewQuestionEvent(
                         widget._textFieldController.text);
                   }
 

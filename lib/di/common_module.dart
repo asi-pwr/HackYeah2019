@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -57,7 +56,7 @@ class CommonModule {
   ContinuousEventsRepository continuousEventsRepository(
           Firestore firestore, FirebaseAuth firebaseAuth) =>
       ContinuousEventsRepository(firestore, firebaseAuth);
-  
+
   @provide
   ContinuousMessagesRepository continuousMessagesRepository(
       Firestore firestore, FirebaseAuth firebaseAuth) =>
