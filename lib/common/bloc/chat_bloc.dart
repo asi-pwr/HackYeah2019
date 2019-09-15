@@ -11,4 +11,7 @@ class ChatBloc extends BaseBloc {
 
   Stream<QuerySnapshot> continuousMessagesStream() =>
       _continuousMessagesRepository.chatStream(_roomId);
+
+  void sendMessage(roomId, content) =>
+      _continuousMessagesRepository.sendMessage(roomId, content);
 }

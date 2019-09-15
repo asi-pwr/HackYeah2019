@@ -15,10 +15,21 @@ class ContinuousMessagesRepository {
   Stream<QuerySnapshot> chatStream(String roomId) {
     return _firestore
         .collection("room")
-        .document(roomId)
+        .document("globalRoom")
         .collection("chat")
         .snapshots();
   }
 
+  Stream<QuerySnapshot> sendMessage(String roomId, content) {
+    var docReference = _firestore
+        .collection("room")
+        .document(roomId)
+        .collection("chat")
+        .document(DateTime.now().millisecondsSinceEpoch.toString());
 
+    _firestore.runTransaction((transaction) async {
+      await transaction
+          .set(docReference, {'userId': _user.uid, 'content': content, 'user': _user.displayName});
+    });
+  }
 }
