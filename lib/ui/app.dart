@@ -23,7 +23,7 @@ class App extends StatelessWidget {
       home: RoomPage(commonInjector.roomBloc, title: 'My room', args: "globalRoom"),
       routes: <String, WidgetBuilder> {
         '/login': (BuildContext context) =>
-            LoginPage(commonInjector.loginBloc, title: 'Firebase login'),
+            LoginPage(commonInjector.loginBloc, title: 'Login/Register'),
         '/chat': (BuildContext context) =>
             ChatPage(commonInjector.chatBloc, title: 'Chat'),
       },
