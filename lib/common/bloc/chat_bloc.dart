@@ -14,4 +14,6 @@ class ChatBloc extends BaseBloc {
 
   void sendMessage(roomId, content) =>
       _continuousMessagesRepository.sendMessage(roomId, content);
+
+  String getMyUserId() => _continuousMessagesRepository.getMyUserId();
 }

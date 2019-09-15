@@ -20,6 +20,10 @@ class ContinuousMessagesRepository {
         .snapshots();
   }
 
+  String getMyUserId(){
+    return _user.uid;
+  }
+
   Stream<QuerySnapshot> sendMessage(String roomId, content) {
     var docReference = _firestore
         .collection("room")
