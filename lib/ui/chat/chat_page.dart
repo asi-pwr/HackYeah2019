@@ -41,9 +41,6 @@ class _ChatPageState extends State<ChatPage> {
           child: StreamBuilder(
               stream: widget.chatBloc.continuousMessagesStream(),
               builder: (context, snapshot) {
-                print(context.widget);
-                print(snapshot.data);
-                print("BBBBBBBBBBBBBBBB");
                 if (snapshot.hasData && snapshot.data.documents.length != 0) {
                   return _listViewBuilder(snapshot);
                 }
@@ -68,23 +65,37 @@ class _ChatPageState extends State<ChatPage> {
 
 //
   Widget _listViewBuilder(AsyncSnapshot<QuerySnapshot> snapshot) {
-//    return Text("");
     return ListView.builder(
+      padding: EdgeInsets.all(10.0),
       itemBuilder: (context, index) =>
           _buildMessage(index, snapshot.data.documents[index]),
       itemCount: snapshot.data.documents.length,
     );
   }
 
+  bool _isItMe(messageUserId) {
+    return messageUserId == widget.chatBloc.getMyUserId();
+  }
+
 //
   Widget _buildMessage(int index, DocumentSnapshot document) {
     return Row(
-      children: <Widget>[
-        Container(
-          child: Text(document['userName'] + ': ' + document['content']),
-        )
-      ],
-    );
+        mainAxisAlignment: _isItMe(document['userId'])
+            ? MainAxisAlignment.end
+            : MainAxisAlignment.start,
+        children: <Widget>[
+          Container(
+              padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
+              width: 200.0,
+              decoration: BoxDecoration(
+                  color: Colors.lightGreenAccent,
+                  borderRadius: BorderRadius.circular(8.0)),
+              child: Text(document['userName'] + ': ' + document['content'],
+                  textAlign: _isItMe(document['userId'])
+                      ? TextAlign.right
+                      : TextAlign.left),
+              margin: EdgeInsets.only(bottom: 10))
+        ]);
   }
 
   Widget buildInput() {
